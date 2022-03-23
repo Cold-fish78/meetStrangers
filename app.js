@@ -21,13 +21,13 @@ io.on('connection',(socket)=>{
     connectedPeers.push(socket.id);
     console.log(connectedPeers);
     socket.on('disconnect',()=>{
-        ;
+        console.log('user disconnected');
         newConnectecPeers = connectedPeers.filter((peerSocketId)=>{
             peerSocketId !== socket.id;
         });
         connectedPeers = newConnectecPeers;
         console.log(connectedPeers);
-console.log('user disconnected')
+
     });
 });
 
