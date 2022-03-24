@@ -13,3 +13,18 @@ personalCodeCopyButton.addEventListener('click',()=>{
   navigator.clipboard && navigator.clipboard.writeText(personalCode);
 })
 
+// register event listeners for connection buttons
+
+const personalCodeChatButton = document.getElementById('personal_code_chat_button');
+
+const personalCodeVideoButton = document.getElementById('personal_code_video_button');
+
+
+personalCodeChatButton.addEventListener('click',()=>{
+    console.log("chat button clicked");
+});
+
+
+personalCodeVideoButton.addEventListener('click',()=>{
+    console.log("video button clicked");
+});
