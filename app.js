@@ -11,18 +11,24 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 app.use(express.static('public'));
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.sendFile(__dirname + 'public/index.html');
 });
 
 let connectedPeers = [];
 
-io.on('connection',(socket)=>{
+io.on('connection', (socket) => {
     connectedPeers.push(socket.id);
     console.log(connectedPeers);
-    socket.on('disconnect',()=>{
+
+socket.on('pre-offer',(data)=>{
+    console.log('preoffer came');
+    console.log(data);
+    
+})
+    socket.on('disconnect', () => {
         console.log('user disconnected');
-        newConnectecPeers = connectedPeers.filter((peerSocketId)=>{
+        newConnectecPeers = connectedPeers.filter((peerSocketId) => {
             peerSocketId !== socket.id;
         });
         connectedPeers = newConnectecPeers;
