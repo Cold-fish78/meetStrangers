@@ -6,21 +6,24 @@ let socketIO = null;
 export const registerSocketEvents = (socket) => {
     socketIO = socket;
     socket.on('connect', () => {
-        console.log('successfully connected to web socket server');
-        console.log(socket.id);
+        // console.log('successfully connected to web socket server');
+        // console.log(socket.id);
         store.socketId(socket.id);
         ui.updatePersonalCode(socket.id);
     });
-
+       
 
     socket.on('pre-offer' , (data)=>{
+        console.log('pre offer function executed');
+       console.log(data);
         webRTCHandler.handlePreOffer(data);
-    })
+    });
 
 }
 
 
 export const sendPreOffer = (data) => {
+    console.log('inside send pre offer function');
     console.log(data);
-    socketIO.emit('pre-offer', data);
+    socketIO.emit("pre-offer", data);
 }
