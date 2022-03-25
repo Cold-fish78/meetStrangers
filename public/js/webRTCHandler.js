@@ -12,3 +12,7 @@ export const sendPreOffer = (callType,callePersonalCode) =>{
 
     wss.sendPreOffer(data);
 }
+export const handlePreOffer = (data) =>{
+    console.log('pre offer came');
+    console.log('data'); 
+}
