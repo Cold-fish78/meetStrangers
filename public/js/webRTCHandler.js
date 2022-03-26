@@ -43,6 +43,7 @@ export const handlePreOffer = (data) => {
 const acceptCallHandler = () => {
     console.log('call accepted');
    sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED);
+   ui.showCallElements(connectedUserDetails.callType);
 };
 const rejectCallHandler = () => {
     console.log('call rejected');
@@ -95,6 +96,6 @@ wss.sendPreOfferAnswer(data);
     if(preOfferAnswer ===constants.preOfferAnswer.CALL_ACCEPTED){
         // show dialoge that call has been accepted
         
-        ui.showInfoDialog(preOfferAnswer);
+       ui.showCallElements(connectedUserDetails.callType);
     }
 }

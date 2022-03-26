@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
         const connectedPeer = connectedPeers.find(
             (peerSocketId) => peerSocketId === calleePersonalCode
         );
-        console.log(connectedPeer + 
+        console.log(connectedPeer +
             "at app 32");
 
         if (connectedPeer) {
@@ -38,6 +38,13 @@ io.on('connection', (socket) => {
             }
             //    console.log("this is connected peer" + connectedPeer);
             io.to(calleePersonalCode).emit('pre-offer', data);
+        } else {
+
+            const data = {
+                preOfferAnswer: 'CALLEE_NOT_FOUND',
+
+            }
+            io.to(socket.id).emit('pre-offer-answer', data);
         }
 
     });
@@ -45,12 +52,12 @@ io.on('connection', (socket) => {
     socket.on('pre-offer-answer', (data) => {
         console.log('pre-offer-answer' + data);
         console.log("app 45 " + data);
-        const {callerSocketId} = data;
+        const { callerSocketId } = data;
         const connectedPeer = connectedPeers.find(
             (peerSocketId) => peerSocketId === callerSocketId
         );
-        if(connectedPeer){
-            io.to(data.callerSocketId).emit('pre-offer-answer',data);
+        if (connectedPeer) {
+            io.to(data.callerSocketId).emit('pre-offer-answer', data);
         }
     });
 
