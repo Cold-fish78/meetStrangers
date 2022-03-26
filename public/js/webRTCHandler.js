@@ -6,13 +6,23 @@ let connectedUserDetails;
 
 export const sendPreOffer = (callType, calleePersonalCode) => {
     // working till here
-  
-    const data = {
+    connectedUserDetails={
+        callType,
+        socketId : calleePersonalCode,
+    }
+    console.log(connectedUserDetails);
+
+    if(callType ===constants.callType.CHAT_PERSONAL_CODE || constants.callType.VIDEO_CHAT_PERSONAL_CODE){
+        const data = {
         callType,
         calleePersonalCode,
     }
-
-    wss.sendPreOffer(data);
+    console.log("about to show calling dialogue");
+    ui.showCallingDialog(callingDialogRejectCallHandler);
+  wss.sendPreOffer(data);
+    }
+    
+  
 }
 export const handlePreOffer = (data) => {
     console.log(data);
@@ -35,4 +45,8 @@ const acceptCallHandler = () => {
 };
 const rejectCallHandler = () => {
     console.log('call rejected');
+}
+
+const callingDialogRejectCallHandler =() =>{
+    console.log('cut the call');
 }
