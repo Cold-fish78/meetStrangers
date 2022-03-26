@@ -18,6 +18,11 @@ export const registerSocketEvents = (socket) => {
         webRTCHandler.handlePreOffer(data);
     });
 
+    // caller side event 
+    socket.on('pre-offer-answer',(data)=>{
+        webRTCHandler.handlePreOfferAnswer(data);
+    });
+
 }
 
 
@@ -27,7 +32,8 @@ export const sendPreOffer = (data) => {
     socketIO.emit("pre-offer", data);
 }
 
-
+// callee side
 export const sendPreOfferAnswer = (data) =>{
+    console.log("inside send pre offer answer @wss37" + data);
     socketIO.emit('pre-offer-answer',data);
 }
