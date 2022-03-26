@@ -26,7 +26,47 @@ export const showCallingDialog =(rejectCallHandler) =>{
     dialog.appendChild(callingDialog); 
 }
 
+export const showInfoDialog = (preOfferAnswer) =>{
+    let infoDialog = null;
+    if(preOfferAnswer  ===constants.preOfferAnswer.CALL_REJECTED){
+        infoDialog = elements.getInfoDialog(
+            'Call rejected',
+            'Calle rejected your call'
+        );
+    }
 
+    if(preOfferAnswer === constants.preOfferAnswer.CALLEE_NOT_FOUND){
+        infoDialog = elements.getInfoDialog(
+            'Calle not found ',
+            'Please check personal code'
+        )
+    }
+
+    if(preOfferAnswer === constants.preOfferAnswer.CALL_UNAVIALABLE){
+        console.log('call rejected but not visible');
+
+        infoDialog = elements.getInfoDialog(
+            'call is not possible',
+            'Calle is busy. Please try again later'
+        );
+    }
+
+    if(infoDialog){
+        const dialog = document.getElementById('dialog');
+        dialog.appendChild(infoDialog);
+
+        setTimeout(()=>{
+            removeAllDialogs();
+        },[4000]);
+    }
+
+    // if(preOfferAnswer === constants.preOfferAnswer.CALL_ACCEPTED){
+    //     infoDialog = elements.getInfoDialog(
+    //         'Call rejected',
+    //         'Calle rejected your call'
+    //     )
+    // }
+}
 
 export const removeAllDialogs = () =>{
     const dialog = document.getElementById('dialog');

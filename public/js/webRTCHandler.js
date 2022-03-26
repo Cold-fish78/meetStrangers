@@ -76,17 +76,25 @@ wss.sendPreOfferAnswer(data);
     
     if(preOfferAnswer ===constants.preOfferAnswer.CALLEE_NOT_FOUND){
         // show dialoge that callee has not been found
+
+        ui.showInfoDialog(preOfferAnswer);
     }
 
     if(preOfferAnswer ===constants.preOfferAnswer.CALL_UNAVIALABLE){
         // show dialoge that callee is not able to connect
+        
+        ui.showInfoDialog(preOfferAnswer);
     }
 
     if(preOfferAnswer ===constants.preOfferAnswer.CALL_REJECTED){
+        
+        ui.showInfoDialog(preOfferAnswer);
         // show dialoge that call is rejected by the callee
     }
 
     if(preOfferAnswer ===constants.preOfferAnswer.CALL_ACCEPTED){
         // show dialoge that call has been accepted
+        
+        ui.showInfoDialog(preOfferAnswer);
     }
 }
