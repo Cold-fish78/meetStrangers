@@ -5,3 +5,11 @@ export const callType = {
     VIDEO_STRANGER : 'VIDEO_STRANGER'
 
 }
+
+
+export const preOfferAnswer = {
+    CALLEE_NOT_FOUND : 'CALLE_NOT_FOUND',
+    CALL_ACCEPTED : 'CALL_ACCEPTED',
+    CALL_REJECTED : 'CALL_REJECTED',
+    CALL_UNAVIALABLE : 'CALL_UNAVAILABLE',
+}

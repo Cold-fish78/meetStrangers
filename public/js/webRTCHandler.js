@@ -34,19 +34,32 @@ export const handlePreOffer = (data) => {
     }
    
     if (callType === constants.callType.CHAT_PERSONAL_CODE || constants.callType.VIDEO_CHAT_PERSONAL_CODE) {
-       
+       console.log('about to show inncoming call handler')
         ui.showIncomingCallDialog(callType, acceptCallHandler, rejectCallHandler);
     }
 }
 
 
 const acceptCallHandler = () => {
-    console.log('call accepted')
+    console.log('call accepted');
+    wss.sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED);
 };
 const rejectCallHandler = () => {
     console.log('call rejected');
+    wss.sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED);
 }
 
 const callingDialogRejectCallHandler =() =>{
     console.log('cut the call');
+}
+
+
+
+
+const sendPreOfferAnswer = (preOfferAnswer) =>{
+const data = {
+    callerSocketId : connectedUserDetails.socketId,
+    preOfferAnswer,
+}
+wss.sendPreOfferAnswer(data);
 }

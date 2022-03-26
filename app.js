@@ -23,10 +23,10 @@ io.on('connection', (socket) => {
 
     socket.on('pre-offer', (data) => {
         console.log(data);
-        let {callType,calleePersonalCode} = data;
-    //    working till here
+        let { callType, calleePersonalCode } = data;
+        //    working till here
         const connectedPeer = connectedPeers.find(
-            (peerSocketId) =>peerSocketId === calleePersonalCode
+            (peerSocketId) => peerSocketId === calleePersonalCode
         );
         console.log(connectedPeer);
         if (connectedPeer) {
@@ -34,18 +34,27 @@ io.on('connection', (socket) => {
                 callerSocketId: socket.id,
                 callType,
             }
-        //    console.log("this is connected peer" + connectedPeer);
+            //    console.log("this is connected peer" + connectedPeer);
             io.to(calleePersonalCode).emit('pre-offer', data);
         }
 
     });
+
+    socket.on('pre-offer-answer', (data) => {
+        console.log('pre-offer-answer' + data);
+    });
+
+
+
+
+
     socket.on('disconnect', () => {
         // console.log('user disconnected');
         newConnectecPeers = connectedPeers.filter((peerSocketId) =>
             peerSocketId !== socket.id
         );
         connectedPeers = newConnectecPeers;
-        console.log("connected peers are" +connectedPeers);
+        console.log("connected peers are" + connectedPeers);
 
     });
 });

@@ -1,4 +1,4 @@
-export const getIncomingCallDialog = (callTypeInfo, acceptCallHandler, rejectHandler) => {
+export const getIncomingCallDialog = (callTypeInfo, acceptCallHandler, rejectCallHandler) => {
     console.log("getting incoming call dialogue");
     const dialog = document.createElement('div');
     dialog.classList.add('dialog_wrapper');
@@ -48,15 +48,25 @@ export const getIncomingCallDialog = (callTypeInfo, acceptCallHandler, rejectHan
 
     dialogContent.appendChild(title);
     dialogContent.appendChild(imageContainer);
-     dialogContent.appendChild(buttonContainer);
+    dialogContent.appendChild(buttonContainer);
 
+
+    //  accepting the call
+
+    acceptCallButton.addEventListener('click',()=>{
+        acceptCallHandler();
+    });
+
+    rejectCallButton.addEventListener('click',()=>{
+        rejectCallHandler();
+    });
 
     return dialog;
-} 
+}
 
 
 
-export const getCallingDialog = (rejectCallHandler) =>{
+export const getCallingDialog = (rejectCallHandler) => {
 
 
     const dialog = document.createElement('div');
