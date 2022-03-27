@@ -7,8 +7,26 @@ export const updatePersonalCode = (personalCode) => {
 }
 
 
+export const updateLocalVideo = (stream) =>{
+    
+    const localVideo = document.getElementById('local_video');
+    localVideo.srcObject = stream;
+    localVideo.addEventListener('loadedmetadata',()=>{
+        localVideo.play();
+    })
+}
+export const updateRemoteVideo = (stream) =>{
+    const remoteVideo = document.getElementById('remote_video');
+    remoteVideo.srcObject = stream;
+}
+
+
+
+
+
 export const showIncomingCallDialog = (callType, acceptCallHandler, rejectCallHandler) => {
 
+    
     const callTypeInfo = callType === constants.callType.CHAT_PERSONAL_CODE ? "Chat" : "Video";
 
     // console.log('call type info' + callTypeInfo);

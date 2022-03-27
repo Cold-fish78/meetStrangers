@@ -1,6 +1,7 @@
 import * as store from './store.js';
 import * as ui from './ui.js';
 import * as webRTCHandler from './webRTCHandler.js';
+import * as constants from './constants.js'
 let socketIO = null;
 
 export const registerSocketEvents = (socket) => {
@@ -22,7 +23,17 @@ export const registerSocketEvents = (socket) => {
     socket.on('pre-offer-answer',(data)=>{
         webRTCHandler.handlePreOfferAnswer(data);
     });
+   
 
+    socket.on('webRTC-signalling',(data)=>{
+        switch(data.type) {
+            case constants.webRTCSignalling.OFFER:
+            webRTCHandler.handleWebRTCOffer(data);
+            break;
+            default:
+            return;
+        }
+    })
 }
 
 
@@ -36,4 +47,9 @@ export const sendPreOffer = (data) => {
 export const sendPreOfferAnswer = (data) =>{
     console.log("inside send pre offer answer @wss37" + data);
     socketIO.emit('pre-offer-answer',data);
+}
+
+export const sendDataUsingWebRTCSignalling = (data) =>{
+    socketIO.emit('webRTC-signalling',data);
+
 }
