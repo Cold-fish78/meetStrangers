@@ -188,6 +188,7 @@ export const handlePreOfferAnswer = (data) => {
 
 const sendWebRTCOffer = async () => {
   const offer = await peerConection.createOffer();
+  // sending sdp info to the other user
   await peerConection.setLocalDescription(offer);
   wss.sendDataUsingWebRTCSignaling({
     connectedUserSocketId: connectedUserDetails.socketId,
@@ -197,9 +198,11 @@ const sendWebRTCOffer = async () => {
 };
 
 export const handleWebRTCOffer = async (data) => {
+  // getting sdp info
   await peerConection.setRemoteDescription(data.offer);
   const answer = await peerConection.createAnswer();
   await peerConection.setLocalDescription(answer);
+  // sending our sdp info to caller
   wss.sendDataUsingWebRTCSignaling({
     connectedUserSocketId: connectedUserDetails.socketId,
     type: constants.webRTCSignaling.ANSWER,
