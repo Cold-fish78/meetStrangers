@@ -1,94 +1,84 @@
-const exp = require('constants');
-const express = require('express');
-const req = require('express/lib/request');
-const http = require('http');
-const { Socket } = require('socket.io');
-const PORT = process.env.PORT || 6002;
+const express = require("express");
+const http = require("http");
 
+const PORT = process.env.PORT || 6002;
 
 const app = express();
 const server = http.createServer(app);
-const io = require('socket.io')(server);
-app.use(express.static('public'));
+const io = require("socket.io")(server);
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + 'public/index.html');
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 let connectedPeers = [];
 
-io.on('connection', (socket) => {
-    connectedPeers.push(socket.id);
-    // console.log(connectedPeers);
+io.on("connection", (socket) => {
+  connectedPeers.push(socket.id);
 
-    socket.on('pre-offer', (data) => {
-        console.log(data);
-        let { callType, calleePersonalCode } = data;
-        //    working till here
-        const connectedPeer = connectedPeers.find(
-            (peerSocketId) => peerSocketId === calleePersonalCode
-        );
-        console.log(connectedPeer +
-            "at app 32");
-
-        if (connectedPeer) {
-            const data = {
-                callerSocketId: socket.id,
-                callType,
-            }
-            //    console.log("this is connected peer" + connectedPeer);
-            io.to(calleePersonalCode).emit('pre-offer', data);
-        } else {
-
-            const data = {
-                preOfferAnswer: 'CALLEE_NOT_FOUND',
-
-            }
-            io.to(socket.id).emit('pre-offer-answer', data);
-        }
-
-    });
-
-    socket.on('pre-offer-answer', (data) => {
-        console.log('pre-offer-answer' + data);
-        console.log("app 45 " + data);
-        const { callerSocketId } = data;
-        const connectedPeer = connectedPeers.find(
-            (peerSocketId) => peerSocketId === callerSocketId
-        );
-        if (connectedPeer) {
-            io.to(data.callerSocketId).emit('pre-offer-answer', data);
-        }
-    });
-
-   socket.on('webRTC-signalling',(data)=>{
-       const {connectedUserSocketId} = data;
+  socket.on("pre-offer", (data) => {
+    console.log("pre-offer-came");
+    const { calleePersonalCode, callType } = data;
+    console.log(calleePersonalCode);
+    console.log(connectedPeers);
     const connectedPeer = connectedPeers.find(
-        (peerSocketId) => peerSocketId === connectedUserSocketId
+      (peerSocketId) => peerSocketId === calleePersonalCode
     );
 
+    console.log(connectedPeer);
 
-    if(connectedPeer){
-        io.to(connectedUserSocketId).emit('webRTC-signalling',data);
+    if (connectedPeer) {
+      const data = {
+        callerSocketId: socket.id,
+        callType,
+      };
+      io.to(calleePersonalCode).emit("pre-offer", data);
+    } else {
+      const data = {
+        preOfferAnswer: "CALLEE_NOT_FOUND",
+      };
+      io.to(socket.id).emit("pre-offer-answer", data);
     }
-   })
+  });
 
+  socket.on("pre-offer-answer", (data) => {
+    const { callerSocketId } = data;
 
+    const connectedPeer = connectedPeers.find(
+      (peerSocketId) => peerSocketId === callerSocketId
+    );
 
-    socket.on('disconnect', () => {
-        // console.log('user disconnected');
-        newConnectecPeers = connectedPeers.filter((peerSocketId) =>
-            peerSocketId !== socket.id
-        );
-        connectedPeers = newConnectecPeers;
-        console.log("connected peers are" + connectedPeers);
+    if (connectedPeer) {
+      io.to(data.callerSocketId).emit("pre-offer-answer", data);
+    }
+  });
 
-    });
+  socket.on("webRTC-signaling", (data) => {
+    const { connectedUserSocketId } = data;
+
+    const connectedPeer = connectedPeers.find(
+      (peerSocketId) => peerSocketId === connectedUserSocketId
+    );
+
+    if (connectedPeer) {
+      io.to(connectedUserSocketId).emit("webRTC-signaling", data);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+
+    const newConnectedPeers = connectedPeers.filter(
+      (peerSocketId) => peerSocketId !== socket.id
+    );
+
+    connectedPeers = newConnectedPeers;
+    console.log(connectedPeers);
+  });
 });
 
-server.listen(PORT, function (err) {
-    if (err) {
-        console.log('error occured while starting the server' + err);
-    }
-    console.log("server is running at port" + PORT);
+server.listen(PORT, () => {
+  console.log(`listening on ${PORT}`);
 });

@@ -1,147 +1,146 @@
-export const getIncomingCallDialog = (callTypeInfo, acceptCallHandler, rejectCallHandler) => {
-    console.log("getting incoming call dialogue");
-    const dialog = document.createElement('div');
-    dialog.classList.add('dialog_wrapper');
-    const dialogContent = document.createElement('div');
-    dialogContent.classList.add('dialog_content');
-    dialog.appendChild(dialogContent);
-    const title = document.createElement('p');
-    title.classList.add('dialog_title');
-    title.innerHTML = `Incoming ${callTypeInfo} Call`;
+export const getIncomingCallDialog = (
+  callTypeInfo,
+  acceptCallHandler,
+  rejectCallHandler
+) => {
+  console.log("getting incoming call dialog");
+  const dialog = document.createElement("div");
+  dialog.classList.add("dialog_wrapper");
+  const dialogContent = document.createElement("div");
+  dialogContent.classList.add("dialog_content");
+  dialog.appendChild(dialogContent);
 
+  const title = document.createElement("p");
+  title.classList.add("dialog_title");
+  title.innerHTML = `Incoming ${callTypeInfo} Call`;
 
+  const imageContainer = document.createElement("div");
+  imageContainer.classList.add("dialog_image_container");
+  const image = document.createElement("img");
+  const avatarImagePath = "./utils/images/dialogAvatar.png";
+  image.src = avatarImagePath;
+  imageContainer.appendChild(image);
 
-    const imageContainer = document.createElement('div');
-    imageContainer.classList.add('dialog_image_container');
-    const image = document.createElement('img');
-    const avatarImagePath = './utils/images/dialogAvatar.png';
-    image.src = avatarImagePath;
-    imageContainer.appendChild(image);
+  const buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("dialog_button_container");
 
+  const acceptCallButton = document.createElement("button");
+  acceptCallButton.classList.add("dialog_accept_call_button");
+  const acceptCallImg = document.createElement("img");
+  acceptCallImg.classList.add("dialog_button_image");
+  const acceptCallImgPath = "./utils/images/acceptCall.png";
+  acceptCallImg.src = acceptCallImgPath;
+  acceptCallButton.append(acceptCallImg);
+  buttonContainer.appendChild(acceptCallButton);
 
-    const buttonContainer = document.createElement('div');
-    buttonContainer.classList.add('dialog_button_container');
+  const rejectCallButton = document.createElement("button");
+  rejectCallButton.classList.add("dialog_reject_call_button");
+  const rejectCallImg = document.createElement("img");
+  rejectCallImg.classList.add("dialog_button_image");
+  const rejectCallImgPath = "./utils/images/rejectCall.png";
+  rejectCallImg.src = rejectCallImgPath;
+  rejectCallButton.append(rejectCallImg);
+  buttonContainer.appendChild(rejectCallButton);
 
-    //    accept button 
-    const acceptCallButton = document.createElement('button');
-    acceptCallButton.classList.add('dialog_accept_call_button');
-    const acceptCallimg = document.createElement('img');
-    acceptCallimg.classList.add('dialog_button_img');
-    const acceptCallImagePath = './utils/images/acceptCall.png';
-    acceptCallimg.src = acceptCallImagePath;
-    acceptCallButton.append(acceptCallimg);
-    buttonContainer.appendChild(acceptCallButton);
+  dialogContent.appendChild(title);
+  dialogContent.appendChild(imageContainer);
+  dialogContent.appendChild(buttonContainer);
 
-    // reject reject
-    const rejectCallButton = document.createElement('button');
-    rejectCallButton.classList.add('dialog_reject_call_button');
-    const rejectCallimg = document.createElement('img');
-    rejectCallimg.classList.add('dialog_button_img');
-    const rejectCallImagePath = './utils/images/rejectCall.png';
-    rejectCallimg.src = rejectCallImagePath;
-    rejectCallButton.append(rejectCallimg);
-    buttonContainer.appendChild(rejectCallButton);
+  acceptCallButton.addEventListener("click", () => {
+    acceptCallHandler();
+  });
 
+  rejectCallButton.addEventListener("click", () => {
+    rejectCallHandler();
+  });
 
-
-
-
-    dialogContent.appendChild(title);
-    dialogContent.appendChild(imageContainer);
-    dialogContent.appendChild(buttonContainer);
-
-
-    //  accepting the call
-
-    acceptCallButton.addEventListener('click',()=>{
-        acceptCallHandler();
-    });
-
-    rejectCallButton.addEventListener('click',()=>{
-        rejectCallHandler();
-    });
-
-    return dialog;
-}
-
-
+  return dialog;
+};
 
 export const getCallingDialog = (rejectCallHandler) => {
+  const dialog = document.createElement("div");
+  dialog.classList.add("dialog_wrapper");
+  const dialogContent = document.createElement("div");
+  dialogContent.classList.add("dialog_content");
+  dialog.appendChild(dialogContent);
 
+  const title = document.createElement("p");
+  title.classList.add("dialog_title");
+  title.innerHTML = `Calling`;
 
-    const dialog = document.createElement('div');
-    dialog.classList.add('dialog_wrapper');
-    const dialogContent = document.createElement('div');
-    dialogContent.classList.add('dialog_content');
-    dialog.appendChild(dialogContent);
-    const title = document.createElement('p');
-    title.classList.add('dialog_title');
-    title.innerHTML = `Calling`;
+  const imageContainer = document.createElement("div");
+  imageContainer.classList.add("dialog_image_container");
+  const image = document.createElement("img");
+  const avatarImagePath = "./utils/images/dialogAvatar.png";
+  image.src = avatarImagePath;
+  imageContainer.appendChild(image);
 
+  const buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("dialog_button_container");
 
+  const hangUpCallButton = document.createElement("button");
+  hangUpCallButton.classList.add("dialog_reject_call_button");
+  const hangUpCallImg = document.createElement("img");
+  hangUpCallImg.classList.add("dialog_button_image");
+  const rejectCallImgPath = "./utils/images/rejectCall.png";
+  hangUpCallImg.src = rejectCallImgPath;
+  hangUpCallButton.append(hangUpCallImg);
+  buttonContainer.appendChild(hangUpCallButton);
 
-    const imageContainer = document.createElement('div');
-    imageContainer.classList.add('dialog_image_container');
-    const image = document.createElement('img');
-    const avatarImagePath = './utils/images/dialogAvatar.png';
-    image.src = avatarImagePath;
-    imageContainer.appendChild(image);
+  dialogContent.appendChild(title);
+  dialogContent.appendChild(imageContainer);
+  dialogContent.appendChild(buttonContainer);
 
+  return dialog;
+};
 
+export const getInfoDialog = (dialogTitle, dialogDescription) => {
+  const dialog = document.createElement("div");
+  dialog.classList.add("dialog_wrapper");
+  const dialogContent = document.createElement("div");
+  dialogContent.classList.add("dialog_content");
+  dialog.appendChild(dialogContent);
 
-    const buttonContainer = document.createElement('div');
-    buttonContainer.classList.add('dialog_button_container');
+  const title = document.createElement("p");
+  title.classList.add("dialog_title");
+  title.innerHTML = dialogTitle;
 
-    const hangUpCallButton = document.createElement('button');
-    hangUpCallButton.classList.add('dialog_reject_call_button');
+  const imageContainer = document.createElement("div");
+  imageContainer.classList.add("dialog_image_container");
+  const image = document.createElement("img");
+  const avatarImagePath = "./utils/images/dialogAvatar.png";
+  image.src = avatarImagePath;
+  imageContainer.appendChild(image);
 
+  const description = document.createElement("p");
+  description.classList.add("dialog_description");
+  description.innerHTML = dialogDescription;
 
+  dialogContent.appendChild(title);
+  dialogContent.appendChild(imageContainer);
+  dialogContent.appendChild(description);
 
-    const hangUpCallimg = document.createElement('img');
-    hangUpCallimg.classList.add('dialog_button_img');
-    const rejectCallImagePath = './utils/images/rejectCall.png';
-    hangUpCallimg.src = rejectCallImagePath;
-    hangUpCallButton.append(hangUpCallimg);
-    buttonContainer.appendChild(hangUpCallButton);
+  return dialog;
+};
 
+export const getLeftMessage = (message) => {
+  const messageContainer = document.createElement("div");
+  messageContainer.classList.add("message_left_container");
+  const messageParagraph = document.createElement("p");
+  messageParagraph.classList.add("message_left_paragraph");
+  messageParagraph.innerHTML = message;
+  messageContainer.appendChild(messageParagraph);
 
+  return messageContainer;
+};
 
-    dialogContent.appendChild(title);
-    dialogContent.appendChild(imageContainer);
-    dialogContent.appendChild(buttonContainer);
-    return dialog;
+export const getRightMessage = (message) => {
+  const messageContainer = document.createElement("div");
+  messageContainer.classList.add("message_right_container");
+  const messageParagraph = document.createElement("p");
+  messageParagraph.classList.add("message_right_paragraph");
+  messageParagraph.innerHTML = message;
+  messageContainer.appendChild(messageParagraph);
 
-}
-
-
- export const getInfoDialog =(dialogTitle ,dialogDescription)=>{
-    const dialog = document.createElement('div');
-    dialog.classList.add('dialog_wrapper');
-    const dialogContent = document.createElement('div');
-    dialogContent.classList.add('dialog_content');
-    dialog.appendChild(dialogContent);
-
-
-    const title = document.createElement('p');
-    title.classList.add('dialog_title');
-    title.innerHTML = dialogTitle;
-
-
-
-    const imageContainer = document.createElement('div');
-    imageContainer.classList.add('dialog_image_container');
-    const image = document.createElement('img');
-    const avatarImagePath = './utils/images/dialogAvatar.png';
-    image.src = avatarImagePath;
-    imageContainer.appendChild(image);
-
-    const description = document.createElement('p');
-    description.classList.add('dialog_description');
-    description.innerHTML = dialogDescription;
-
-
-    dialogContent.appendChild(title);
-    dialogContent.appendChild(imageContainer);
-    dialogContent.appendChild(description);
-    return dialog;
-}
+  return messageContainer;
+};
