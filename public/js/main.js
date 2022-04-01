@@ -4,6 +4,7 @@ import * as webRTCHandler from "./webRTCHandler.js";
 import * as constants from "./constants.js";
 import * as ui from "./ui.js";
 import * as recordingUtils from "./recordingUtils.js";
+import * as strangerUtils from './strangerUtils.js'
 
 // initialization of socketIO connection
 const socket = io("/");
@@ -30,6 +31,8 @@ const personalCodeVideoButton = document.getElementById(
   "personal_code_video_button"
 );
 
+
+
 personalCodeChatButton.addEventListener("click", () => {
   console.log("chat button clicked");
 
@@ -52,6 +55,28 @@ personalCodeVideoButton.addEventListener("click", () => {
   webRTCHandler.sendPreOffer(callType, calleePersonalCode);
 });
 
+
+
+
+const strangerChatButton = document.getElementById('stranger_chat_button');
+strangerChatButton.addEventListener('click',()=>{
+
+})
+const strangerVideoButton = document.getElementById('stranger_video_button');
+strangerVideoButton.addEventListener('click',()=>{
+  
+});
+
+// register event to allow connections from strangers
+const checkbox = document.getElementById('allow_strangers_checkbox');
+checkbox.addEventListener('click',()=>{
+  const checkBoxState = store.getState().allowConnectionsFromStrangers;
+  ui.updateStrangerCheckBox(!checkBoxState);
+  store.setAllowConnectionsFromStrangers(!checkBoxState);
+  strangerUtils.changeStrangerConnectionStatus(!checkBoxState);
+
+  
+})
 // event listeners for video call buttons
 
 const micButton = document.getElementById("mic_button");

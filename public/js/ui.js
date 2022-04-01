@@ -233,6 +233,15 @@ export const switchRecordingButtons =(switchForResumeButton =false) =>{
 
 }
 
+// changing status of checkbox
+
+export const updateStrangerCheckBox = (allowConnections) =>{
+  const checkBoxCheckImg = document.getElementById('allow_strangers_checkbox_image');
+  console.log('at ui 240' + allowConnections);
+  
+  allowConnections ? showElement(checkBoxCheckImg) : hideElement(checkBoxCheckImg);
+}
+
 // ui helper functions
 
 const enableDashboard = () => {
