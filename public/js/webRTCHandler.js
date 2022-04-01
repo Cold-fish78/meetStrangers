@@ -122,14 +122,16 @@ export const sendPreOffer = (callType, calleePersonalCode) => {
 export const handlePreOffer = (data) => {
   const { callType, callerSocketId } = data;
 
+ 
+  if(!checkCallPossibility()){
+    return sendPreOfferAnswer(constants.preOfferAnswer.CALL_UNAVAILABLE,callerSocketId);
+  }
+
   connectedUserDetails = {
     socketId: callerSocketId,
     callType,
   };
 
-  if(!checkCallPossibility()){
-    return sendPreOfferAnswer(constants.preOfferAnswer.CALL_UNAVAILABLE);
-  }
   
   store.setCallState(constants.callState.CALL_UNAVAILABLE);
   
@@ -153,6 +155,7 @@ const acceptCallHandler = () => {
 const rejectCallHandler = () => {
   console.log("call rejected");
   sendPreOfferAnswer();
+  setCallIncomingCallAvailable();
   sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED);
 };
 
@@ -160,9 +163,10 @@ const callingDialogRejectCallHandler = () => {
   console.log("rejecting the call");
 };
 
-const sendPreOfferAnswer = (preOfferAnswer) => {
+const sendPreOfferAnswer = (preOfferAnswer,callerSocketId = null) => {
+  const SocketId =callerSocketId ? callerSocketId : connectedUserDetails.socketId;
   const data = {
-    callerSocketId: connectedUserDetails.socketId,
+    callerSocketId: SocketId,
     preOfferAnswer,
   };
   ui.removeAllDialogs();

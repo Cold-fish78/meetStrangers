@@ -77,7 +77,7 @@ io.on("connection", (socket) => {
       io.to(connectedUserSocketId).emit("user-hanged-up");
     }
 
-  })
+  });
 
   socket.on("disconnect", () => {
     console.log("user disconnected");
