@@ -93,6 +93,25 @@ io.on("connection", (socket) => {
     console.log(connectedPeersStrangers);
   });
 
+  socket.on('get_stranger_socket_id',()=>{
+    let randomStrangerSocketId ;
+    const filteredConnectedPeersStrangers = connectedPeersStrangers.filter(
+      (peerSocketId) => peerSocketId !==socket.id
+    );
+    if(filteredConnectedPeersStrangers.length>0){
+      randomStrangerSocketId = filteredConnectedPeersStrangers[
+        Math.floor(Math.random() * filteredConnectedPeersStrangers.length)
+      ];
+    } else{
+      randomStrangerSocketId = null; 
+    }
+
+    const data = {
+      randomStrangerSocketId
+    };
+    io.to(socket.id).emit('stranger_socket_id',data);
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
 
