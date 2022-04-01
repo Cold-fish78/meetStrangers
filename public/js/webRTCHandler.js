@@ -84,7 +84,7 @@ const createPeerConnection = () => {
   // add our stream to peer connection
 
   if (
-    connectedUserDetails.callType === constants.callType.VIDEO_PERSONAL_CODE
+    connectedUserDetails.callType === constants.callType.VIDEO_PERSONAL_CODE || connectedUserDetails.callType === constants.callType.VIDEO_STRANGER
   ) {
     const localStream = store.getState().localStream;
 
@@ -117,14 +117,29 @@ export const sendPreOffer = (callType, calleePersonalCode) => {
     store.setCallState(constants.callState.CALL_UNAVAILABLE);
     wss.sendPreOffer(data);
   }
+
+  if (
+    callType === constants.callType.CHAT_STRANGER ||
+    callType === constants.callType.VIDEO_STRANGER
+
+  ) {
+    const data = {
+      callType,
+      calleePersonalCode,
+    };
+
+
+    store.setCallState(constants.callState.CALL_UNAVAILABLE);
+    wss.sendPreOffer(data);
+  }
 };
 
 export const handlePreOffer = (data) => {
   const { callType, callerSocketId } = data;
 
- 
-  if(!checkCallPossibility()){
-    return sendPreOfferAnswer(constants.preOfferAnswer.CALL_UNAVAILABLE,callerSocketId);
+
+  if (!checkCallPossibility()) {
+    return sendPreOfferAnswer(constants.preOfferAnswer.CALL_UNAVAILABLE, callerSocketId);
   }
 
   connectedUserDetails = {
@@ -132,9 +147,9 @@ export const handlePreOffer = (data) => {
     callType,
   };
 
-  
+
   store.setCallState(constants.callState.CALL_UNAVAILABLE);
-  
+
 
   if (
     callType === constants.callType.CHAT_PERSONAL_CODE ||
@@ -142,6 +157,13 @@ export const handlePreOffer = (data) => {
   ) {
     console.log("showing call dialog");
     ui.showIncomingCallDialog(callType, acceptCallHandler, rejectCallHandler);
+  }
+
+  if (callType === constants.callType.CHAT_STRANGER ||
+    callType === constants.callType.VIDEO_STRANGER) {
+    createPeerConnection();
+    sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED);
+    ui.showCallElements(connectedUserDetails.callType);
   }
 };
 
@@ -162,15 +184,15 @@ const rejectCallHandler = () => {
 const callingDialogRejectCallHandler = () => {
   console.log("rejecting the call");
   const data = {
-    connectedUserSocketId : connectedUserDetails.socketId,
+    connectedUserSocketId: connectedUserDetails.socketId,
 
   }
   closePeerConnectionAndResetState();
   wss.sendUserHangUp(data);
 };
 
-const sendPreOfferAnswer = (preOfferAnswer,callerSocketId = null) => {
-  const SocketId =callerSocketId ? callerSocketId : connectedUserDetails.socketId;
+const sendPreOfferAnswer = (preOfferAnswer, callerSocketId = null) => {
+  const SocketId = callerSocketId ? callerSocketId : connectedUserDetails.socketId;
   const data = {
     callerSocketId: SocketId,
     preOfferAnswer,
@@ -338,7 +360,7 @@ const closePeerConnectionAndResetState = () => {
     // store.getState().localStream.getAudioTracks[0].enabled = true;
     console.log("testingg...")
   }
-  
+
   ui.updateUIAfterHangUp(connectedUserDetails.callType);
   setCallIncomingCallAvailable();
   connectedUserDetails = null;
@@ -347,27 +369,27 @@ const closePeerConnectionAndResetState = () => {
 
 
 
-const checkCallPossibility = (callType) =>{
+const checkCallPossibility = (callType) => {
   const callState = store.getState().callState;
 
-  if(callState ===constants.callState.CALL_AVAILABLE){
+  if (callState === constants.callState.CALL_AVAILABLE) {
     return true;
   }
-   if(
-    (callState ===constants.callType.VIDEO_PERSONAL_CODE || callType ===constants.callType.VIDEO_STRANGER) &&
+  if (
+    (callState === constants.callType.VIDEO_PERSONAL_CODE || callType === constants.callType.VIDEO_STRANGER) &&
     callState === constants.callState.CALL_UNAVAILABLE_ONLY_CHAT
-   ){
-     return false;
-   }
-   return false;
+  ) {
+    return false;
+  }
+  return false;
 }
 
 
-const setCallIncomingCallAvailable = () =>{
+const setCallIncomingCallAvailable = () => {
   const localStream = store.getState().localStream;
-  if(localStream){
+  if (localStream) {
     store.setCallState(constants.callState.CALL_AVAILABLE);
-  } else{
+  } else {
     store.setCallState(constants.callState.CALL_UNAVAILABLE_ONLY_CHAT);
   }
 }

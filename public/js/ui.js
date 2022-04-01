@@ -61,6 +61,18 @@ export const showCallingDialog = (rejectCallHandler) => {
   dialog.appendChild(callingDialog);
 };
 
+
+export const showNoStrangerAvailableDialog = () =>{
+  const infoDialog = elements.getInfoDialog('No stranger available','Please try again later');
+  if (infoDialog) {
+    const dialog = document.getElementById("dialog");
+    dialog.appendChild(infoDialog);
+
+    setTimeout(() => {
+      removeAllDialogs();
+    }, [4000]);
+  }
+}
 export const showInfoDialog = (preOfferAnswer) => {
   let infoDialog = null;
 
@@ -101,11 +113,11 @@ export const removeAllDialogs = () => {
 };
 
 export const showCallElements = (callType) => {
-  if (callType === constants.callType.CHAT_PERSONAL_CODE) {
+  if (callType === constants.callType.CHAT_PERSONAL_CODE || callType === constants.callType.CHAT_STRANGER) {
     showChatCallElements();
   }
 
-  if (callType === constants.callType.VIDEO_PERSONAL_CODE) {
+  if (callType === constants.callType.VIDEO_PERSONAL_CODE || callType === constants.callType.VIDEO_STRANGER) {
     showVideoCallElements();
   }
 };
