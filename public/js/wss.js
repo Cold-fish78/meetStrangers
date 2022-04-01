@@ -60,3 +60,9 @@ export const sendDataUsingWebRTCSignaling = (data) => {
 export const sendUserHangUp = (data) =>{
   socketIO.emit("user-handged-up",data);
 }
+
+export  const changeStrangerConnectionStatus = (data) =>{
+  console.log(data + 
+    'wss66');
+  socketIO.emit('stranger_connection_status',data);
+}
