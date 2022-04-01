@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 
-const PORT = process.env.PORT || 6002;
+const PORT = process.env.PORT || 8000;
 
 const app = express();
 const server = http.createServer(app);
@@ -89,8 +89,7 @@ io.on("connection", (socket) => {
       connectedPeersStrangers = newConnectedPeersStrangers;
 
     }
-    console.log('stranger');
-    console.log(connectedPeersStrangers);
+    
   });
 
   socket.on('get_stranger_socket_id',()=>{
@@ -113,7 +112,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+   
 
     const newConnectedPeers = connectedPeers.filter(
       (peerSocketId) => peerSocketId !== socket.id
@@ -128,5 +127,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`listening on ${PORT}`);
+ 
 });

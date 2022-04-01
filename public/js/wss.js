@@ -10,7 +10,7 @@ export const registerSocketEvents = (socket) => {
   socketIO = socket;
 
   socket.on("connect", () => {
-    console.log("succesfully connected to socket.io server");
+  
     store.setSocketId(socket.id);
     ui.updatePersonalCode(socket.id);
   });
@@ -49,7 +49,7 @@ webRTCHandler.handleConnectedUserHangedUp();
 };
 
 export const sendPreOffer = (data) => {
-  console.log("emmiting to server pre offer event");
+ 
   socketIO.emit("pre-offer", data);
 };
 
@@ -67,8 +67,7 @@ export const sendUserHangUp = (data) =>{
 }
 
 export  const changeStrangerConnectionStatus = (data) =>{
-  console.log(data + 
-    'wss66');
+  
   socketIO.emit('stranger_connection_status',data);
 }
 

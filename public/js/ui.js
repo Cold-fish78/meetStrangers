@@ -249,7 +249,7 @@ export const switchRecordingButtons =(switchForResumeButton =false) =>{
 
 export const updateStrangerCheckBox = (allowConnections) =>{
   const checkBoxCheckImg = document.getElementById('allow_strangers_checkbox_image');
-  console.log('at ui 240' + allowConnections);
+ 
   
   allowConnections ? showElement(checkBoxCheckImg) : hideElement(checkBoxCheckImg);
 }

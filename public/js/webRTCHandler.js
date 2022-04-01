@@ -30,7 +30,7 @@ export const getLocalPreview = () => {
       store.setLocalStream(stream);
     })
     .catch((err) => {
-      console.log("error occured when trying to get an access to camera");
+     
       console.log(err);
     });
 };
@@ -44,18 +44,18 @@ const createPeerConnection = () => {
     const dataChannel = event.channel;
 
     dataChannel.onopen = () => {
-      console.log("peer connection is ready to receive data channel messages");
+     
     };
 
     dataChannel.onmessage = (event) => {
-      console.log("message came from data channel");
+     
       const message = JSON.parse(event.data);
       ui.appendMessage(message);
     };
   };
 
   peerConection.onicecandidate = (event) => {
-    console.log("geeting ice candidates from stun server");
+   
     if (event.candidate) {
       // send our ice candidates to other peer
       wss.sendDataUsingWebRTCSignaling({
@@ -68,7 +68,7 @@ const createPeerConnection = () => {
 
   peerConection.onconnectionstatechange = (event) => {
     if (peerConection.connectionState === "connected") {
-      console.log("succesfully connected with other peer");
+     
     }
   };
 
@@ -155,7 +155,7 @@ export const handlePreOffer = (data) => {
     callType === constants.callType.CHAT_PERSONAL_CODE ||
     callType === constants.callType.VIDEO_PERSONAL_CODE
   ) {
-    console.log("showing call dialog");
+   
     ui.showIncomingCallDialog(callType, acceptCallHandler, rejectCallHandler);
   }
 
@@ -168,21 +168,21 @@ export const handlePreOffer = (data) => {
 };
 
 const acceptCallHandler = () => {
-  console.log("call accepted");
+ 
   createPeerConnection();
   sendPreOfferAnswer(constants.preOfferAnswer.CALL_ACCEPTED);
   ui.showCallElements(connectedUserDetails.callType);
 };
 
 const rejectCallHandler = () => {
-  console.log("call rejected");
+ 
   sendPreOfferAnswer();
   setCallIncomingCallAvailable();
   sendPreOfferAnswer(constants.preOfferAnswer.CALL_REJECTED);
 };
 
 const callingDialogRejectCallHandler = () => {
-  console.log("rejecting the call");
+ 
   const data = {
     connectedUserSocketId: connectedUserDetails.socketId,
 
@@ -256,12 +256,12 @@ export const handleWebRTCOffer = async (data) => {
 };
 
 export const handleWebRTCAnswer = async (data) => {
-  console.log("handling webRTC Answer");
+ 
   await peerConection.setRemoteDescription(data.answer);
 };
 
 export const handleWebRTCCandidate = async (data) => {
-  console.log("handling incoming webRTC candidates");
+ 
   try {
     await peerConection.addIceCandidate(data.candidate);
   } catch (err) {
@@ -300,7 +300,7 @@ export const switchBetweenCameraAndScreenSharing = async (
 
     ui.updateLocalVideo(localStream);
   } else {
-    console.log("switching for screen sharing");
+  
     try {
       screenSharingStream = await navigator.mediaDevices.getDisplayMedia({
         video: true,
@@ -334,17 +334,17 @@ export const switchBetweenCameraAndScreenSharing = async (
 
 // hang up
 export const handleHangUp = () => {
-  console.log('hanging up the call');
+
   const data = {
     connectedUserSocketId: connectedUserDetails.socketId,
 
   }
-  console.log(data);
+
   wss.sendUserHangUp(data);
   closePeerConnectionAndResetState();
 }
 export const handleConnectedUserHangedUp = () => {
-  console.log('connected peer hanged up');
+
   closePeerConnectionAndResetState();
 }
 
@@ -358,7 +358,7 @@ const closePeerConnectionAndResetState = () => {
   if (connectedUserDetails.callType === constants.callType.VIDEO_PERSONAL_CODE || connectedUserDetails.callType === constants.callType.VIDEO_STRANGER) {
     // store.getState().localStream.getVideoTracks[0].enabled = true;
     // store.getState().localStream.getAudioTracks[0].enabled = true;
-    console.log("testingg...")
+   
   }
 
   ui.updateUIAfterHangUp(connectedUserDetails.callType);

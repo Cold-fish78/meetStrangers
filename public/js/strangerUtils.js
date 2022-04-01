@@ -6,8 +6,7 @@ import * as ui from './ui.js'
 let strangerCallType;
 export const changeStrangerConnectionStatus = (status) =>{
 const data = {status};
-console.log(status + 
-    'stranger7');
+
 wss.changeStrangerConnectionStatus(data);
 }
 
@@ -18,7 +17,7 @@ export const getStrangerSocketIdAndConnect = (callType) =>{
 }
 
 export const connectWithStranger = (data) =>{
-    console.log(data.randomStrangerSocketId);
+    
 
     if(data.randomStrangerSocketId){
            webRTCHandler.sendPreOffer(strangerCallType,data.randomStrangerSocketId);
